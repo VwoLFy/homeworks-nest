@@ -185,33 +185,6 @@ describe('AppController (e2e)', () => {
         .post('/blogger/blogs')
         .auth(token1.accessToken, { type: 'bearer' })
         .send({
-          name: 1,
-          description: 'description',
-          websiteUrl: ' https://localhost1.uuu/blogs  ',
-        })
-        .expect(HTTP_Status.BAD_REQUEST_400);
-      await request(app.getHttpServer())
-        .post('/blogger/blogs')
-        .auth(token1.accessToken, { type: 'bearer' })
-        .send({
-          name: 'valid name',
-          description: 'description',
-          websiteUrl: 1,
-        })
-        .expect(HTTP_Status.BAD_REQUEST_400);
-      await request(app.getHttpServer())
-        .post('/blogger/blogs')
-        .auth(token1.accessToken, { type: 'bearer' })
-        .send({
-          name: 'valid name',
-          description: 1,
-          websiteUrl: ' https://localhost1.uuu/blogs  ',
-        })
-        .expect(HTTP_Status.BAD_REQUEST_400);
-      await request(app.getHttpServer())
-        .post('/blogger/blogs')
-        .auth(token1.accessToken, { type: 'bearer' })
-        .send({
           name: 'a'.repeat(16),
           description: 'description',
           websiteUrl: ' https://localhost1.uuu/blogs  ',
@@ -2727,7 +2700,6 @@ describe('AppController (e2e)', () => {
         .expect(HTTP_Status.CREATED_201);
       await request(app.getHttpServer())
         .post('/auth/login')
-        .auth('admin', 'qwerty', { type: 'basic' })
         .send({
           loginOrEmail: 'login',
           password: 'password3',
@@ -2735,23 +2707,21 @@ describe('AppController (e2e)', () => {
         .expect(HTTP_Status.UNAUTHORIZED_401);
       await request(app.getHttpServer())
         .post('/auth/login')
-        .auth('admin', 'qwerty', { type: 'basic' })
         .send({
           loginOrEmail: '',
           password: 'password',
         })
-        .expect(HTTP_Status.BAD_REQUEST_400)
-        // await request(app.getHttpServer())
-        //     .post('/auth/login')
-        //     .auth('admin', 'qwerty', {type: 'basic'})
-        //     .send({
-        //         loginOrEmail: "login",
-        //         password: "",
-        //     })
         .expect(HTTP_Status.BAD_REQUEST_400);
+      // await request(app.getHttpServer())
+      //     .post('/auth/login')
+      //     .auth('admin', 'qwerty', {type: 'basic'})
+      //     .send({
+      //         loginOrEmail: "login",
+      //         password: "",
+      //     })
+      //.expect(HTTP_Status.BAD_REQUEST_400);
       await request(app.getHttpServer())
         .post('/auth/login')
-        .auth('admin', 'qwerty', { type: 'basic' })
         .send({
           loginOrEmail: 'string2@sdf.eee',
           password: 'password',

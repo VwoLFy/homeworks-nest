@@ -24,7 +24,6 @@ export class GenerateNewTokensUseCase implements ICommandHandler<GenerateNewToke
 
   async updateSession(dto: SessionExtendedDto) {
     const foundSession = await this.securityRepository.findSessionByDeviceId(dto.deviceId);
-    if (!foundSession) return;
 
     foundSession.updateSessionData(dto);
     await this.securityRepository.saveSession(foundSession);

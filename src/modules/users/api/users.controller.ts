@@ -36,7 +36,7 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() body: CreateUserDto): Promise<UserViewModel> {
-    const createdUserId = await this.commandBus.execute(new CreateUserCommand(body));
+    const createdUserId = await this.commandBus.execute<CreateUserCommand, string>(new CreateUserCommand(body));
 
     return await this.usersQueryRepo.findUserById(createdUserId);
   }

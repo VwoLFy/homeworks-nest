@@ -3,11 +3,15 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { HTTP_Status } from './types/enums';
 
 @Injectable()
-export abstract class BaseTransaction<TransactionInput, TransactionOutput> {
+export abstract class BaseTransactionUseCase<TransactionInput, TransactionOutput> {
   protected constructor(public dataSource: DataSource) {}
   // this function will contain all operations that you need to perform
   // and has to be implemented in all transaction classes
   protected abstract onExecute(data: TransactionInput, manager: EntityManager): Promise<TransactionOutput>;
+
+  async execute(command: TransactionInput): Promise<TransactionOutput> {
+    return this.run(command);
+  }
 
   // this is the main function that runs the transaction
   async run(data: TransactionInput): Promise<TransactionOutput> {

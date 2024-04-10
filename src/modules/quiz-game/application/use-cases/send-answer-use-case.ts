@@ -4,7 +4,7 @@ import { QuizGameRepository } from '../../infrastructure/quiz-game.repository';
 import { ForbiddenException } from '@nestjs/common';
 import { GameStatuses } from '../enums';
 import { Statistic } from '../../domain/quiz-game.statistic.entity';
-import { BaseTransaction } from '../../../../main/transaction';
+import { BaseTransactionUseCase } from '../../../../main/base-transaction-use-case';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, EntityManager } from 'typeorm';
 
@@ -14,15 +14,11 @@ export class SendAnswerCommand {
 
 @CommandHandler(SendAnswerCommand)
 export class SendAnswerUseCase
-  extends BaseTransaction<SendAnswerCommand, number>
+  extends BaseTransactionUseCase<SendAnswerCommand, number>
   implements ICommandHandler<SendAnswerCommand>
 {
   constructor(private quizGameRepository: QuizGameRepository, @InjectDataSource() dataSource: DataSource) {
     super(dataSource);
-  }
-
-  async execute(command: SendAnswerCommand): Promise<number> {
-    return this.run(command);
   }
 
   protected async onExecute(data: SendAnswerCommand, manager: EntityManager): Promise<number> {
